@@ -1,26 +1,26 @@
 class Patient
-
-  @@all = []
   attr_accessor :name
+  @@all = []
+
   def initialize(name)
     @name = name
     @@all << self
+  end
+
+  def new_appointment(doctor, date)
+    Appointment.new(date, self, doctor)
   end
 
   def self.all
     @@all
   end
 
-  def new_appointment(date, doctor)
-    Appointment.new(date, doctor, self)
-  end
-
   def appointments
-    Appointment.all.select{|apt|apt.patient == self}
+    Appointment.all.select{|appointment| appointment.patient == self}
   end
 
   def doctors
-    appointments.map{|apt|apt.date}
+    self.appointments.collect{|appointment| appointment.doctor}.uniq
   end
 
-end
+end 
